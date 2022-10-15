@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PizzaHistoryMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="4VI-Ti-7vt">
+                                <rect key="frame" x="0.0" y="10" width="375" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FWC-RQ-6ET">
+                                        <rect key="frame" x="0.0" y="0.0" width="72.5" height="30"/>
+                                        <color key="backgroundColor" red="0.89411764705882346" green="0.95686274509803915" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Type">
+                                            <color key="titleColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="changeMapType:" destination="BYZ-38-t0r" eventType="touchUpInside" id="t6S-10-D7T"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6m-dF-O3E">
+                                        <rect key="frame" x="75.5" y="0.0" width="72.5" height="30"/>
+                                        <color key="backgroundColor" red="0.89411764709999997" green="0.95686274510000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="3d">
+                                            <color key="titleColor" red="0.1960784314" green="0.1960784314" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="changePitch:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dQ0-dC-VxU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YG5-Ft-ClL">
+                                        <rect key="frame" x="151" y="0.0" width="73" height="30"/>
+                                        <color key="backgroundColor" red="0.89411764709999997" green="0.95686274510000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Features">
+                                            <color key="titleColor" red="0.1960784314" green="0.1960784314" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleMapFeatures:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R5A-17-PzE"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6rp-SQ-sdE">
+                                        <rect key="frame" x="227" y="0.0" width="72.5" height="30"/>
+                                        <color key="backgroundColor" red="0.89411764709999997" green="0.95686274510000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Here">
+                                            <color key="titleColor" red="0.1960784314" green="0.1960784314" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="findHere:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fQ6-qq-x1W"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKl-zb-p1A">
+                                        <rect key="frame" x="302.5" y="0.0" width="72.5" height="30"/>
+                                        <color key="backgroundColor" red="0.89411764709999997" green="0.95686274510000002" blue="0.99215686270000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Find">
+                                            <color key="titleColor" red="0.1960784314" green="0.1960784314" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="findPizza:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xUU-K5-PCi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="M5c-pf-08K">
+                                <rect key="frame" x="0.0" y="616" width="375" height="32"/>
+                                <color key="backgroundColor" red="0.89411764705882346" green="0.9137254901960784" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <segments>
+                                    <segment title="Naples"/>
+                                    <segment title="New York"/>
+                                    <segment title="Chicago"/>
+                                    <segment title="Chatham"/>
+                                    <segment title="Bev. Hills"/>
+                                </segments>
+                                <connections>
+                                    <action selector="locationPicker:" destination="BYZ-38-t0r" eventType="valueChanged" id="0Lk-Nu-1Ac"/>
+                                </connections>
+                            </segmentedControl>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsBuildings="NO" showsCompass="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4DU-VW-8IK">
+                                <rect key="frame" x="16" y="48" width="343" height="560"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.58779370779999995" green="0.89027905460000001" blue="0.8745128512" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="M5c-pf-08K" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="GwR-c4-ZjZ"/>
+                            <constraint firstAttribute="trailing" secondItem="M5c-pf-08K" secondAttribute="trailing" id="KAn-mg-dm5"/>
+                            <constraint firstAttribute="trailing" secondItem="4VI-Ti-7vt" secondAttribute="trailing" id="Q3u-Lh-64q"/>
+                            <constraint firstItem="4DU-VW-8IK" firstAttribute="top" secondItem="4VI-Ti-7vt" secondAttribute="bottom" constant="8" id="Q49-YY-Vfq"/>
+                            <constraint firstItem="4VI-Ti-7vt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Tt6-XN-rcO"/>
+                            <constraint firstItem="4VI-Ti-7vt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="dgw-HH-Tt0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4DU-VW-8IK" secondAttribute="trailing" id="ewk-6z-WXM"/>
+                            <constraint firstItem="4DU-VW-8IK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="gdK-HA-Yf0"/>
+                            <constraint firstItem="M5c-pf-08K" firstAttribute="top" secondItem="4DU-VW-8IK" secondAttribute="bottom" constant="8" id="kGv-JM-voV"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="M5c-pf-08K" secondAttribute="bottom" constant="20" id="oux-7D-BrI"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="changeMapType" destination="FWC-RQ-6ET" id="quj-mX-5T3"/>
+                        <outlet property="changePitch" destination="e6m-dF-O3E" id="utV-KL-4l2"/>
+                        <outlet property="mapView" destination="4DU-VW-8IK" id="i6D-SS-4lr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-79.200000000000003" y="138.98050974512745"/>
+        </scene>
+    </scenes>
+</document>
