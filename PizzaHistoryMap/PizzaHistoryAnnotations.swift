@@ -30,6 +30,12 @@ class PizzaHistoryAnnotations{
         annotation.historyText = " In 1943, Ike Sewell changed the crust from the thin flatbread to a deep pan, adding traditional Italian/New York  ingredients. Sewell and his cook and eventual manager Rudy Malnati added a layer of sausage to the pan. Some believe the longer cooking time of 20 minutes to 45 minutes of the deep dish meant more beverage consumption, and a higher profit for the restaurant. Deep dish pizza caught on in Chicago, with many competitors in the area. With the 2 inch of deeper pizza crust, the order of ingredients can change between competitors, with a crust ranging in texture from cracker like to bread like and the cheese on top or on the sauce on top."
         annotations.append(annotation)
         
+        //Chicago2
+        annotation = PizzaAnnotation( coordinate: CLLocationCoordinate2DMake(41.892479 , -87.6267592), title: "++++++Chicago Deep Dish ++++++", subtitle: "++++++No more flat crusts ++++")
+        annotation.pizzaPhoto = UIImage(named: "Chicago")
+        annotation.historyText = "++++++ In 1943, Ike Sewell changed the crust from the thin flatbread to a deep pan, adding traditional Italian/New York  ingredients. Sewell and his cook and eventual manager Rudy Malnati added a layer of sausage to the pan. Some believe the longer cooking time of 20 minutes to 45 minutes of the deep dish meant more beverage consumption, and a higher profit for the restaurant. Deep dish pizza caught on in Chicago, with many competitors in the area. With the 2 inch of deeper pizza crust, the order of ingredients can change between competitors, with a crust ranging in texture from cracker like to bread like and the cheese on top or on the sauce on top.++++++"
+        annotations.append(annotation)
+        
         //Chatham
         annotation = PizzaAnnotation( coordinate: CLLocationCoordinate2DMake(42.4056555,-82.1860369), title: "Hawaiian/Canandian Pizza", subtitle: "Non-Italian Ingredients")
         annotation.pizzaPhoto = UIImage(named: "Chatham")
@@ -40,6 +46,12 @@ class PizzaHistoryAnnotations{
         annotation = PizzaAnnotation( coordinate: CLLocationCoordinate2DMake(34.0674607,-118.3977309), title: "California Pizza", subtitle: "Is this a pizza?")
         annotation.pizzaPhoto = UIImage(named: "Beverly Hills")
         annotation.historyText = "Californian Fusion cuisine combines elements from many cuisines, and pizza is no exception. Wolfgang Puck hired San Francisco chef Ed LaDou to run the pizza oven at his trendy but exclusive restaurant here when it opened in 1982, and used completely non-traditional ingredients, such as duck sausage and smoked salmon. These pizzas still had a traditional crust. Whlie Queen Margherita may have made it permissible to eat poor peoples food, LaDou made it into rich people’s food."
+        annotations.append(annotation)
+        
+        //Beverly Hills2
+        annotation = PizzaAnnotation( coordinate: CLLocationCoordinate2DMake(34.0674607,-118.3977309), title: "++++++California Pizza++++++", subtitle: "++++++Is this a pizza?++++++")
+        annotation.pizzaPhoto = UIImage(named: "++++++Beverly Hills++++++")
+        annotation.historyText = "++++++Californian Fusion cuisine combines elements from many cuisines, and pizza is no exception. Wolfgang Puck hired San Francisco chef Ed LaDou to run the pizza oven at his trendy but exclusive restaurant here when it opened in 1982, and used completely non-traditional ingredients, such as duck sausage and smoked salmon. These pizzas still had a traditional crust. Whlie Queen Margherita may have made it permissible to eat poor peoples food, LaDou made it into rich people’s food.++++++"
         annotations.append(annotation)
         
     }

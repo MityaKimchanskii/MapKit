@@ -200,6 +200,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
         annotationView.detailCalloutAccessoryView = paragraph
         
+        if annotation.pizzaPhoto == nil {
+            annotation.pizzaPhoto = UIImage(named: "pizza pin")
+        }
+        
         annotationView.leftCalloutAccessoryView = UIImageView(image: annotation.pizzaPhoto)
         
         annotationView.rightCalloutAccessoryView = UIButton(type: .infoLight)
