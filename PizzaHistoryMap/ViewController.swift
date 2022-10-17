@@ -27,13 +27,14 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController, MKMapViewDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     //MARK: - Properties
     var coordinate2D = CLLocationCoordinate2DMake(40.8367321, 14.2468856)
     var camera = MKMapCamera()
     var pitch = 0
     var isOn = false
+    var locationManager = CLLocationManager()
     
     //MARK: Outlets
     @IBOutlet weak var changeMapType: UIButton!
@@ -43,8 +44,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         mapView.delegate = self
+        
+        locationManager.delegate = self
+        
         mapView.addAnnotations(PizzaHistoryAnnotations().annotations)
+        
         addDeliveryOverlay()
         addPolylines()
         updateMapRegion(rangeSpan: 100)
@@ -90,7 +96,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func findHere(_ sender: UIButton) {
-        
+        sutupCoreLocation()
     }
     
     @IBAction func findPizza(_ sender: UIButton) {
@@ -98,6 +104,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
 
     @IBAction func locationPicker(_ sender: UISegmentedControl) {
+        
+        disableLocationServices()
         
         let index = sender.selectedSegmentIndex
         
@@ -197,6 +205,35 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     //MARK: Location
+    func sutupCoreLocation() {
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestAlwaysAuthorization()
+        case .authorizedAlways:
+            enabledLocationServices()
+        case .restricted:
+            print("restricted")
+        case .denied:
+            print("denied")
+        case .authorizedWhenInUse:
+            print("authorizedWhenInUse")
+        @unknown default:
+            break
+        }
+        
+    }
+    
+    func enabledLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+//            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+            mapView.setUserTrackingMode(.follow, animated: true)
+        }
+    }
+    
+    func disableLocationServices() {
+        locationManager.stopUpdatingLocation()
+    }
     
     //MARK: Find
     
@@ -281,7 +318,27 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     //MARK: Location Manager delegates
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways:
+            print("Ok")
+        case .denied, .restricted:
+            print("No")
+        default:
+            break
+        }
+    }
     
-
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last!
+        coordinate2D = location.coordinate
+        let displayString = "\(location.timestamp) Coord:\(coordinate2D) Alt: \(location.altitude) meters"
+//        print(displayString)
+        
+        updateMapRegion(rangeSpan: 200)
+        
+        let pin = PizzaAnnotation(coordinate: coordinate2D, title: displayString, subtitle: "")
+        mapView.addAnnotation(pin)
+    }
 }
 
