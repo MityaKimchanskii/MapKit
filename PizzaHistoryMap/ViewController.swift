@@ -45,6 +45,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         mapView.delegate = self
         mapView.addAnnotations(PizzaHistoryAnnotations().annotations)
+        addDeliveryOverlay()
+        addPolylines()
         updateMapRegion(rangeSpan: 100)
     }
 
@@ -114,7 +116,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             return
         case 2://Chicago
             coordinate2D = CLLocationCoordinate2DMake(41.892479 , -87.6267592)
-            updateMapCamera(heading: 12.0, altitude: 50)
+            updateMapCamera(heading: 0.0, altitude: 15000)
             return
         case 3://Chatham
             coordinate2D = CLLocationCoordinate2DMake(42.4056555,-82.1860369)
@@ -123,12 +125,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
         case 4://Beverly Hills
             coordinate2D = CLLocationCoordinate2DMake(34.0674607,-118.3977309)
             
-//            let pizzaPin = MKPointAnnotation()
-//            pizzaPin.coordinate = coordinate2D
-//            pizzaPin.title = "Pizza"
-//            pizzaPin.subtitle = "Also California Pizza"
+            let pizzaPin = MKPointAnnotation()
+            pizzaPin.coordinate = coordinate2D
+            pizzaPin.title = "Pizza"
+            pizzaPin.subtitle = "Also California Pizza"
 //
 //            mapView.addAnnotation(pizzaPin)
+            updateMapCamera(heading: 0, altitude: 1500)
+            return
+            
         default://Beverly Hills
             coordinate2D = CLLocationCoordinate2DMake(34.0674607,-118.3977309)
         }
@@ -161,6 +166,35 @@ class ViewController: UIViewController, MKMapViewDelegate {
     //MARK: Annotations
     
     //MARK: Overlays
+    func addPolylines() {
+        let annotations = PizzaHistoryAnnotations().annotations
+        let beverlyHills = annotations[5].coordinate
+        let beverlyHills2 = annotations[6].coordinate
+        let bhPolyline = MKPolyline(coordinates: [beverlyHills, beverlyHills2], count: 2)
+        bhPolyline.title = "Beverly_Line"
+        
+        var coordinates = [CLLocationCoordinate2D]()
+        for location in annotations {
+            coordinates.append(location.coordinate)
+        }
+        
+        let grandTour = MKPolyline(coordinates: coordinates, count: coordinates.count)
+        grandTour.title = "GrandTour_Line"
+        
+        mapView.addOverlays([grandTour ,bhPolyline])
+    }
+    
+    func addDeliveryOverlay() {
+//        let radius = 1600.0
+        for location in mapView.annotations {
+            if let radius = (location as! PizzaAnnotation).deliveryRadius {
+                let circle = MKCircle(center: location.coordinate, radius: radius)
+                mapView.addOverlay(circle)
+            }
+//            let circle = MKCircle(center: location.coordinate, radius: radius)
+//            mapView.addOverlay(circle)
+        }
+    }
     
     //MARK: Location
     
@@ -219,6 +253,33 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     //MARK: Overlay delegates
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        if let polyline = overlay as? MKPolyline {
+            let polylineRenderer = MKPolylineRenderer(polyline: polyline)
+            
+            if polyline.title == "GrandTour_Line" {
+                polylineRenderer.strokeColor = UIColor.red
+                polylineRenderer.lineWidth = 5.0
+                return polylineRenderer
+            }
+            
+            polylineRenderer.strokeColor = UIColor.green
+            polylineRenderer.lineWidth = 3.0
+            polylineRenderer.lineDashPattern = [20, 10, 2, 10]
+            return polylineRenderer
+        }
+        
+        if let circle = overlay as? MKCircle {
+            let circleRenderer = MKCircleRenderer(circle: circle)
+            circleRenderer.fillColor = UIColor(red: 0.0, green: 0.1, blue: 1.0, alpha: 0.1)
+            circleRenderer.strokeColor = UIColor.blue
+            circleRenderer.lineWidth = 1.0
+            return circleRenderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
+    }
+    
     //MARK: Location Manager delegates
     
 

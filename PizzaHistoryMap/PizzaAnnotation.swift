@@ -17,6 +17,7 @@ class PizzaAnnotation: NSObject, MKAnnotation {
     var id = "Pin"
     var historyText = ""
     var pizzaPhoto: UIImage? = nil
+    var deliveryRadius: CLLocationDistance? = nil
     
     init(coordinate: CLLocationCoordinate2D, title: String?, subtitle: String?) {
         self.coordinate = coordinate
