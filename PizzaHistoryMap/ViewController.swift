@@ -105,7 +105,36 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     @IBAction func findPizza(_ sender: UIButton) {
+//        let address = "2121 N. Clark St. Il"
+//        getCoordinate(address: address) { coordinate, location, error in
+//            if let coordinate = coordinate {
+//                self.mapView.camera.centerCoordinate = coordinate
+//                self.mapView.camera.altitude = 1000.0
+//                let pin = PizzaAnnotation(coordinate: coordinate, title: address, subtitle: location)
+//                self.mapView.addAnnotation(pin)
+//            }
+//        }
         
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = "Pizza"
+        updateMapRegion(rangeSpan: 500)
+        request.region = mapView.region
+        let search = MKLocalSearch(request: request)
+        search.start { response, error in
+            if error == nil {
+                if let response = response {
+                    for mapItem in response.mapItems {
+                        let placemark = mapItem.placemark
+//                        self.mapView.addAnnotation(placemark)
+                        let name = mapItem.name
+                        let coordinate = placemark.coordinate
+                        let street = placemark.thoroughfare
+                        let annotation = PizzaAnnotation(coordinate: coordinate, title: name, subtitle: street)
+                        self.mapView.addAnnotation(annotation)
+                    }
+                }
+            }
+        }
     }
 
     @IBAction func locationPicker(_ sender: UISegmentedControl) {
@@ -260,6 +289,20 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     //MARK: Find
+    func getCoordinate(address: String, completion: @escaping(CLLocationCoordinate2D?, String, NSError?)-> ()) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { placemarks, error in
+            if error == nil {
+                if let placemark = placemarks?.first {
+                    let coordinate = placemark.location?.coordinate
+                    let location = placemark.locality! + " " + placemark.isoCountryCode!
+                    completion(coordinate, location, nil)
+                    return
+                }
+            }
+            completion(nil, "", error as NSError?)
+        }
+    }
     
     //MARK: Directions
     
