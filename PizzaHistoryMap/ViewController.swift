@@ -35,6 +35,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var pitch = 0
     var isOn = false
     var locationManager = CLLocationManager()
+    var heading = 0.0
+    let onRampCoord = CLLocationCoordinate2DMake(37.3346, -122.0345)
     
     //MARK: Outlets
     @IBOutlet weak var changeMapType: UIButton!
@@ -86,6 +88,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     @IBAction func toggleMapFeatures(_ sender: UIButton) {
+        
+        disableLocationServices()
+        
 //        mapView.showsBuildings = isOn
 //        isOn = !isOn
         isOn = !mapView.showsPointsOfInterest
@@ -229,10 +234,29 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             locationManager.startUpdatingLocation()
             mapView.setUserTrackingMode(.follow, animated: true)
         }
+        
+        if CLLocationManager.headingAvailable() {
+            locationManager.startUpdatingLocation()
+        } else {
+            print("heading not available")
+        }
+        
+        monitorRegion(center: onRampCoord, radius: 100.0, id: "On ramp")
     }
     
     func disableLocationServices() {
         locationManager.stopUpdatingLocation()
+    }
+    
+    func monitorRegion(center: CLLocationCoordinate2D, radius: CLLocationDistance, id: String) {
+        if CLLocationManager.authorizationStatus() == .authorizedAlways {
+            if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+                let region = CLCircularRegion(center: center, radius: radius, identifier: id)
+                region.notifyOnExit = true
+                region.notifyOnEntry = true
+                locationManager.startMonitoring(for: region)
+            }
+        }
     }
     
     //MARK: Find
@@ -318,6 +342,26 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     //MARK: Location Manager delegates
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        let circularRegion = region as! CLCircularRegion
+        if circularRegion.identifier == "On ramp" {
+            let alert = UIAlertController(title: "Pizza", message: "On ramp", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        let circularRegion = region as! CLCircularRegion
+        if circularRegion.identifier == "On ramp" {
+            let alert = UIAlertController(title: "Pizza", message: "On freeway", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
+    }
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways:
@@ -332,6 +376,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
         coordinate2D = location.coordinate
+        let speed = "\(location.speed * 2.23694) mph"
+        let headingLoc = "Heading: \(heading)"
+        let course = headingLoc + " at " + speed
+        print(course)
         let displayString = "\(location.timestamp) Coord:\(coordinate2D) Alt: \(location.altitude) meters"
 //        print(displayString)
         
@@ -339,6 +387,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         let pin = PizzaAnnotation(coordinate: coordinate2D, title: displayString, subtitle: "")
         mapView.addAnnotation(pin)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        heading = newHeading.magneticHeading
     }
 }
 
